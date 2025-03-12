@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { user, Iuser } from "@/app/models/user";
+import { userModel, Iuser } from "@/app/models/user";
 import { string, ZodError } from "zod";
 import { MongoError } from "mongodb";
 import { userValidation } from "@/app/zod/commonValidations";
-import dbConnect from "@/lib/dbConn";
+import { dbConnect } from "@/lib/dbConn";
 
 // use unique-names-generator instead of unique-username-generator
 import {
@@ -37,7 +37,7 @@ export const GET = async (req: NextRequest) => {
     const username = searchParams.get("username");
     const valid_username = userValidation.parse(username);
     console.log(valid_username);
-    const isExists = await user
+    const isExists = await userModel
       .findOne({ username: valid_username })
       .select("username");
 

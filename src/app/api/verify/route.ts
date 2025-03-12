@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { user, Iuser } from "@/app/models/user";
+import { userModel, Iuser } from "@/app/models/user";
 import { ZodError } from "zod";
 import { MongoError } from "mongodb";
-import dbConnect from "@/lib/dbConn";
+import { dbConnect } from "@/lib/dbConn";
 
 export const GET = async (
   req: NextRequest,
@@ -12,10 +12,7 @@ export const GET = async (
     await dbConnect();
     const { searchParams } = new URL(req.url);
     const verifyCode = searchParams.get("verifyCode");
-    // const valid_username = userValidation.parse(username);
-    // console.log(valid_username);
-    // const { verifyCode } = await params;
-    const isValid = await user
+    const isValid = await userModel
       .findOneAndUpdate(
         { verifyCode: verifyCode },
         {

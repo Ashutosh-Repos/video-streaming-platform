@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { userDataParser } from "@/app/zod/zodParsingSchemas/userPost";
-import { user } from "@/app/models/user";
-import dbConnect from "@/lib/dbConn";
+import { userModel } from "@/app/models/user";
+import { dbConnect } from "@/lib/dbConn";
 import bcrypt from "bcryptjs";
 import hyperid from "hyperid";
 import nodemailer from "nodemailer";
@@ -50,7 +50,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
     const { email, fullname, password, age, gender } =
       userDataParser.parse(body);
 
-    const existingUser = await user.findOne({ email });
+    const existingUser = await userModel.findOne({ email });
     if (existingUser?.verified) {
       return NextResponse.json({
         success: false,
@@ -79,7 +79,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
     }
 
     // Create new user if not found
-    const newUser = await user.create({
+    const newUser = await userModel.create({
       fullname,
       email,
       password: hashedPassword,

@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface Iuser extends Document {
+  _id: Schema.Types.ObjectId;
   email: string;
   username?: string;
   fullname: string;
@@ -56,6 +57,6 @@ const UserSchema: Schema<Iuser> = new Schema({
   },
 });
 
-export const user =
+export const userModel =
   (mongoose.models?.user as mongoose.Model<Iuser>) ||
   mongoose.model<Iuser>("user", UserSchema);
