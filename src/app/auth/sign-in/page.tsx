@@ -13,9 +13,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { signIn } from "@/auth";
-import { loginValidation } from "@/app/zod/zodFormSchemas/loginFormValidation";
+import { signIn } from "next-auth/react";
+import { loginValidation } from "@/app/zod/zodFormSchemas/authFormValidation";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
+import { Button } from "@/components/ui/button";
 const formSchema = loginValidation;
 const page = () => {
   const router = useRouter();
@@ -32,45 +35,72 @@ const page = () => {
     const result = await signIn("credentials", {
       identifier: formValues.identifier,
       password: formValues.password,
-      redirect: true,
-      callbackUrl: "/dashboard", // Redirect after successful login
+      redirect: false, // Prevent `signIn()` from handling the redirect
     });
+
+    if (result?.ok) {
+      router.push("/"); // Redirect after successful login
+    } else {
+      console.error(result?.error || "Login failed");
+    }
   };
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-0">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full max-w-96 gap-4 flex flex-col h-max p-4 border-0 rounded-2xl relative"
+        >
+          <GlowingEffect
+            spread={40}
+            glow={true}
+            disabled={false}
+            proximity={64}
+            inactiveZone={0.01}
+          />
           <FormField
             control={form.control}
             name="identifier"
-            render={({ field, fieldState }) => (
+            render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="username or email"
                     {...field}
-                    type="text"
+                    type={`text`}
                   />
                 </FormControl>
-                <FormMessage>{fieldState.error?.message}</FormMessage>
+                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="password"
-            render={({ field, fieldState }) => (
+            render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input placeholder="password" type="password" {...field} />
                 </FormControl>
-                <FormMessage>{fieldState.error?.message}</FormMessage>
+                <FormMessage />
               </FormItem>
             )}
           />
-          <div className="w-full h-max flex items-center justify-end relative">
+          <div className="flex items-center justify-between">
+            <Link href={`/auth/forgot`}>
+              <p className="text-xs cursor-pointer text-zinc-400 pl-2.5">
+                forgot password ?
+              </p>
+            </Link>
+            <Button
+              type="submit"
+              className="cursor-pointer"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+            </Button>
+          </div>
+          {/* <div className="w-full h-max flex items-center justify-end relative">
             <button
               className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block border-blue-700 bottom-2"
               type="submit"
@@ -85,7 +115,7 @@ const page = () => {
               </div>
               <span className="absolute bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] transition-opacity duration-500 group-hover:opacity-10" />
             </button>
-          </div>
+          </div> */}
         </form>
       </Form>
     </>

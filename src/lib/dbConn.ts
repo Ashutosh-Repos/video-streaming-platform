@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODBURI!;
+const MONGOURI = process.env.MONGOURI!;
 
-if (!MONGODB_URI) {
+if (!MONGOURI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
+    "Please define the MONGODURI environment variable inside .env.local"
   );
 }
 
@@ -25,13 +25,12 @@ export async function dbConnect() {
       maxPoolSize: 10,
     };
 
-    cached.promise = mongoose
-      .connect(MONGODB_URI, opts)
-      .then(() => mongoose.connection);
+    cached.promise = mongoose.connect(MONGOURI).then(() => mongoose.connection);
   }
 
   try {
     cached.conn = await cached.promise;
+    console.log("connected");
   } catch (e) {
     cached.promise = null;
     throw e;

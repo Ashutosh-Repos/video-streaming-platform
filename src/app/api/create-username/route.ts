@@ -1,43 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import { userModel, Iuser } from "@/app/models/user";
 import { ZodError } from "zod";
 import { MongoError } from "mongodb";
-import { dbConnect } from "@/lib/dbConn";
-
-export const GET = async (
-  req: NextRequest,
-  { params }: { params: { verifyCode: string } }
-) => {
+import { error } from "console";
+import { userValidation } from "@/app/zod/commonValidations";
+import { userModel } from "@/app/models/user";
+export const POST = async (req: NextRequest): Promise<NextResponse> => {
   try {
-    await dbConnect();
-    const { searchParams } = new URL(req.url);
-    const verifyCode = searchParams.get("verifyCode");
-    const isValid = await userModel
-      .findOneAndUpdate(
-        { verifyCode: verifyCode },
-        {
-          $set: {
-            verified: true,
-          },
-        }
-      )
-      .select("_id");
-    if (!isValid)
+    const { username, id } = await req.json();
+    const zodRes = userValidation.safeParse(username);
+
+    if (!zodRes.success) {
+      return NextResponse.json(
+        { success: false, error: "invalid username" },
+        { status: 409 }
+      );
+    }
+
+    const validusername = zodRes.data;
+
+    if (!validusername)
+      return NextResponse.json(
+        { success: false, error: "invalid username" },
+        { status: 409 }
+      );
+
+    const dbres = await userModel.findByIdAndUpdate(id, { username: username });
+    if (!dbres)
       return NextResponse.json(
         {
           success: false,
-          error:
-            "invalid verification link or link had expired or server error",
+          error: "some-thing went wrong",
         },
-        { status: 402 }
+        { status: 500 }
       );
 
     return NextResponse.json(
-      {
-        success: true,
-        message: "user is verified succesfully",
-        data: { id: isValid._id },
-      },
+      { success: true, message: "username is created successfully" },
       { status: 200 }
     );
   } catch (error: any) {
@@ -66,7 +64,6 @@ export const GET = async (
         { status: 500 }
       );
     }
-
     if (error instanceof Error) {
       return NextResponse.json(
         {

@@ -107,3 +107,5 @@ export const GET = async (req: NextRequest) => {
     );
   }
 };
+
+//http://localhost:3000/auth/create-username/67d3ef4db5cfaa3f9575460f

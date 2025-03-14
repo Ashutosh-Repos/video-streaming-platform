@@ -30,14 +30,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         try {
           await dbConnect();
-          const identifier = (credentials.identifier as string) || "";
-          const password = (credentials.password as string) || "";
+          console.log("1");
 
           const parseResult = credentialsValidation.safeParse(credentials);
 
           if (!parseResult.success) {
             throw new Error("invalid username or email");
           }
+          const { identifier, password } = parseResult.data;
 
           const user = await userModel.findOne<Iuser>({
             $or: [{ username: identifier }, { email: identifier }],
@@ -51,14 +51,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if (!isValidPassword) throw new Error("invalid credentials");
 
+          console.log("7");
           const userData = {
             email: user.email as string,
             username: user.username as string,
             id: user._id.toString() as string,
           };
 
+          console.log("8");
           return userData;
         } catch (error: any) {
+          console.log("0");
           return null;
         }
       },

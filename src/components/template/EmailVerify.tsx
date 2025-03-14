@@ -13,15 +13,15 @@ import {
 import * as React from "react";
 
 interface EmailVerifyProps {
-  username: string;
-  verifyLink: string;
+  name: string;
+  verifyCode: string;
 }
 
 // const baseUrl = process.env.VERCEL_URL
 //   ? `https://${process.env.VERCEL_URL}`
 //   : "";
 
-export const EmailVerify = ({ username, verifyLink }: EmailVerifyProps) => (
+export const EmailVerify = ({ name, verifyCode }: EmailVerifyProps) => (
   <Html>
     <Head />
     <Body style={main}>
@@ -37,21 +37,23 @@ export const EmailVerify = ({ username, verifyLink }: EmailVerifyProps) => (
         /> */}
 
         <Text style={title}>
-          <strong>@{username}</strong>, a personal access was created on your
-          account.
+          <strong>{name}</strong>, a personal verification link was created on
+          your account. Do not share link to anyone
         </Text>
 
         <Section style={section}>
           <Text style={text}>
-            Hey <strong>{username}</strong>!
+            Hey <strong>{name}</strong>!
           </Text>
           <Text style={text}>
-            A fine-grained personal access token (<Link>resend</Link>) was
-            recently added to your account.
+            Click on verify button and complete sign-up process
           </Text>
 
-          <Button href={verifyLink} style={button}>
-            View Email
+          <Button
+            href={`http://localhost:3000/auth/verify/${verifyCode}`}
+            style={button}
+          >
+            <strong>Verify</strong>
           </Button>
         </Section>
         <Text style={links}>

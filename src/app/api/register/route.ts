@@ -28,7 +28,7 @@ const sendVerificationEmail = async (
 ): Promise<void> => {
   try {
     const htmlEmail = await render(
-      EmailVerify({ username: fullname, verifyLink: verifyCode })
+      EmailVerify({ name: fullname, verifyCode: verifyCode })
     );
     const options = {
       from: "ashu9226kumar@gmail.com",
@@ -46,19 +46,25 @@ const sendVerificationEmail = async (
 export const POST = async (request: NextRequest): Promise<NextResponse> => {
   try {
     await dbConnect();
+    console.log("after db");
     const body = await request.json();
-    const { email, fullname, password, age, gender } =
-      userDataParser.parse(body);
+    console.log("after json");
+    console.log(body);
 
-    const existingUser = await userModel.findOne({ email });
+    const { email, fullname, password, age, gender } =
+      await userDataParser.parseAsync(body);
+
+    const existingUser = await userModel.findOne({ email: email });
     if (existingUser?.verified) {
       return NextResponse.json({
         success: false,
         message: "User with this email already exists",
       });
     }
+    console.log("1");
     const hashedPassword = await bcrypt.hash(password, 10);
-    const code = await hyperid({ urlSafe: true }).uuid;
+    const code = hyperid({ urlSafe: true }).uuid;
+    console.log("2");
 
     if (existingUser) {
       Object.assign(existingUser, {
@@ -69,8 +75,9 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
         verifyCode: code,
       });
       await existingUser.save();
-
+      console.log("3");
       await sendVerificationEmail(email, fullname, code);
+      console.log("4");
 
       return NextResponse.json({
         success: true,
@@ -79,19 +86,22 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
     }
 
     // Create new user if not found
+    console.log("5");
     const newUser = await userModel.create({
-      fullname,
-      email,
+      username: undefined,
+      fullname: fullname,
+      email: email,
       password: hashedPassword,
-      age,
-      gender,
+      age: age,
+      gender: gender,
       verified: false,
       verifyCode: code,
     });
-    if (!newUser) throw error("unable to new user server error");
-
+    console.log("6");
+    if (!newUser) throw error("unable to create new user server error");
+    console.log("7");
     await sendVerificationEmail(email, fullname, code);
-
+    console.log("8");
     return NextResponse.json({
       success: true,
       message:
