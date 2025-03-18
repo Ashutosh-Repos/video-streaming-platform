@@ -73,28 +73,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 60,
   },
 
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
-        session.user.email = token.email as string;
-      }
-      return session;
-    },
-  },
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     if (user) {
+  //       token.id = user.id;
+  //       token.email = user.email;
+  //     }
+  //     return token;
+  //   },
+  //   async session({ session, token }) {
+  //     if (session.user) {
+  //       session.user.id = token.id as string;
+  //       session.user.email = token.email as string;
+  //     }
+  //     return session;
+  //   },
+  // },
   pages: {
     signIn: "/login",
-    error: "/auth-error",
+    // error: "/auth-error",
   },
   secret: process.env.AUTH_SECRET,
 });

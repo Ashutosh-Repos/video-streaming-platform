@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { userModel, Iuser } from "@/app/models/user";
-import { string, ZodError } from "zod";
+import { ZodError } from "zod";
 import { MongoError } from "mongodb";
 import { userValidation } from "@/app/zod/commonValidations";
 import { dbConnect } from "@/lib/dbConn";

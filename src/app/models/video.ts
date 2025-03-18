@@ -15,6 +15,7 @@ interface Ivideo extends Document {
 const VideoSchema: Schema<Ivideo> = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
+    ref: "user",
     required: true,
   },
   video: {
