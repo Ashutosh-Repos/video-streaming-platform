@@ -15,7 +15,7 @@ import CustomTable from "./CustomTable";
 
 const page = () => {
   return (
-    <div className="w-full h-full flex flex-col p-2">
+    <div className="w-full h-full flex flex-col p-2 overflow-hidden">
       <Tabs defaultValue="videos" className="w-full">
         <TabsList className="bg-inherit flex gap-6">
           <TabsTrigger value="videos">Videos</TabsTrigger>
@@ -82,6 +82,15 @@ const page = () => {
             caption="List of paylists you created..."
             columns={["Video", "Visibility", "Date", "Views", "Comments"]}
             data={[
+              {
+                visibility: "Private",
+                date: new Date(),
+                views: 100,
+                commentsCnt: 100,
+                title: "string",
+                id: "string",
+                thumbnail: "string",
+              },
               {
                 visibility: "Private",
                 date: new Date(),

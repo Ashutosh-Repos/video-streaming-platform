@@ -7,7 +7,7 @@ const contentLayout = ({
   children,
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full max-w-screen h-full flex flex-col">
       <h1 className={`text-2xl p-4 ${roboto.className} font-bold`}>
         Channel Content
       </h1>

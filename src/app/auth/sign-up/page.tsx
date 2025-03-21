@@ -24,6 +24,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import Apple from "next-auth/providers/apple";
+import {
+  IconBrandGoogle,
+  IconBrandGithub,
+  IconBrandApple,
+  IconBrandGoogleFilled,
+  IconBrandGithubFilled,
+  IconAppleFilled,
+  IconBrandAppleFilled,
+} from "@tabler/icons-react";
+
+import { Separator } from "@/components/ui/separator";
+
 import { registerValidation } from "@/app/zod/zodFormSchemas/authFormValidation";
 import Link from "next/link";
 
@@ -67,7 +82,7 @@ const page = () => {
   return (
     <Form {...form}>
       <form
-        className="w-full max-w-96 gap-4 flex flex-col h-max p-4 border-0 rounded-2xl relative"
+        className="w-full max-w-96 gap-4 flex flex-col h-max p-4 border-0 rounded-2xl relative bg-transparent backdrop-blur-sm"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <GlowingEffect
@@ -77,6 +92,20 @@ const page = () => {
           proximity={64}
           inactiveZone={0.01}
         />
+        <h1 className="w-full text-center text-xl font-bold">Register</h1>
+
+        <div className="w-full h-8 flex items-center justify-evenly">
+          <IconBrandGoogleFilled className="h-8" />
+          <Separator orientation="vertical" />
+          <IconBrandGithubFilled className="h-8" />
+          <Separator orientation="vertical" />
+          <IconBrandAppleFilled className="h-8" />
+        </div>
+        <div className="w-full flex items-center justify-center gap-2">
+          <span className="grow border-[1px]"></span>
+          <span className="px-2">or</span>
+          <span className="grow border-[1px]"></span>
+        </div>
         <FormField
           control={form.control}
           name="fullname"

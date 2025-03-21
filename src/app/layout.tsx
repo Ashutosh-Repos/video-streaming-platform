@@ -41,7 +41,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-screen h-screen relative">{children}</main>
+          <main className="w-screen h-screen relative grid place-items-center">
+            {children}
+          </main>
 
           <Toaster />
         </ThemeProvider>

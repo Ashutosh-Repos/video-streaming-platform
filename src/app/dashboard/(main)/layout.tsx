@@ -14,44 +14,45 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const DasboradLayout = ({
   children,
-}: Readonly<{ children: React.ReactNode }>) => {
+  model,
+}: Readonly<{ children: React.ReactNode; model: React.ReactNode }>) => {
   const [open, setOpen] = useState<boolean>(false);
   const links = [
     {
       label: "Analytics",
       href: "analytics",
       icon: (
-        <IconGraph className="text-neutral-700 dark:text-neutral-200 h-5 w-5 shrink-0" />
+        <IconGraph className="text-neutral-700 dark:text-neutral-200 h-7 w-7 shrink-0" />
       ),
     },
     {
       label: "Content",
       href: "content",
       icon: (
-        <IconDeviceTv className="text-neutral-700 dark:text-neutral-200 h-5 w-5 shrink-0" />
+        <IconDeviceTv className="text-neutral-700 dark:text-neutral-200 h-7 w-7 shrink-0" />
       ),
     },
     {
       label: "Community",
       href: "community",
       icon: (
-        <IconUsers className="text-neutral-700 dark:text-neutral-200 h-5 w-5 shrink-0" />
+        <IconUsers className="text-neutral-700 dark:text-neutral-200 h-7 w-7 shrink-0" />
       ),
     },
     {
       label: "Exit",
       href: "/",
       icon: (
-        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 shrink-0" />
+        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-7 w-7 shrink-0" />
       ),
     },
   ];
   return (
-    <div className="w-full h-screen flex items-center relative">
+    <div className="w-full h-full flex relative">
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between">
-          <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            <div className="flex gap-2 h-max">
+        <SidebarBody className="gap-10 z-10">
+          <div className="flex max-md:w-full md:flex-col overflow-y-auto overflow-x-hidden">
+            <div className="flex max-md:hidden md:gap-2 h-max">
               <Avatar>
                 <AvatarImage
                   src="https://github.com/shadcn.png"
@@ -59,11 +60,11 @@ const DasboradLayout = ({
                 />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <h4 className="text-sm font-bold h-full flex items-center justify-between">
+              <h4 className="max-md:hidden text-sm font-bold h-full flex items-center justify-between">
                 Channel Name
               </h4>
             </div>
-            <div className="mt-8 flex flex-col gap-2">
+            <div className="md:mt-8 max-md:w-full max-md:justify-evenly flex md:flex-col gap-2">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
@@ -72,6 +73,7 @@ const DasboradLayout = ({
         </SidebarBody>
       </Sidebar>
       {children}
+      {model}
     </div>
   );
 };

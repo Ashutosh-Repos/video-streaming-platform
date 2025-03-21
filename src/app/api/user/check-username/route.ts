@@ -22,9 +22,7 @@ const usernameSuggestion = (username: string) => {
   };
   for (let i = 0; i < 3; i++) {
     const suggestion = uniqueUsernameGenerator(config);
-    // if (!existingSet.includes(suggestion)) {
     suggestions.add(suggestion);
-    // }
   }
 
   return Array.from(suggestions);
@@ -42,15 +40,6 @@ export const GET = async (req: NextRequest) => {
       .select("username");
 
     if (isExists) {
-      // const existingUsernames = await user
-      //   .find({ username: { $regex: valid_username, $options: "i" } })
-      //   .select("username -_id")
-      //   .limit(5);
-
-      // const existingUsernamesList: string[] = existingUsernames.map(
-      //   (d) => d.username
-      // );
-
       const suggestions = usernameSuggestion(valid_username);
       return NextResponse.json({
         success: false,

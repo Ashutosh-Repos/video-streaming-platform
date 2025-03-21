@@ -20,6 +20,19 @@ import Link from "next/link";
 import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import Apple from "next-auth/providers/apple";
+import {
+  IconBrandGoogle,
+  IconBrandGithub,
+  IconBrandApple,
+  IconBrandGoogleFilled,
+  IconBrandGithubFilled,
+  IconAppleFilled,
+  IconBrandAppleFilled,
+} from "@tabler/icons-react";
+import { Separator } from "@/components/ui/separator";
 const formSchema = loginValidation;
 const page = () => {
   const router = useRouter();
@@ -47,7 +60,7 @@ const page = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full max-w-96 gap-4 flex flex-col h-max p-4 border-0 rounded-2xl relative"
+          className="w-full max-w-96 gap-4 flex flex-col h-max p-4 border-0 rounded-2xl relative bg-transparent backdrop-blur-sm"
         >
           <GlowingEffect
             spread={40}
@@ -56,6 +69,20 @@ const page = () => {
             proximity={64}
             inactiveZone={0.01}
           />
+          <h1 className="w-full text-center text-xl font-bold">Login</h1>
+
+          <div className="w-full h-8 flex items-center justify-evenly">
+            <IconBrandGoogleFilled className="h-8" />
+            <Separator orientation="vertical" />
+            <IconBrandGithubFilled className="h-8" />
+            <Separator orientation="vertical" />
+            <IconBrandAppleFilled className="h-8" />
+          </div>
+          <div className="w-full flex items-center justify-center gap-2">
+            <span className="grow border-[1px]"></span>
+            <span className="px-2">or</span>
+            <span className="grow border-[1px]"></span>
+          </div>
           <FormField
             control={form.control}
             name="identifier"
@@ -85,8 +112,8 @@ const page = () => {
             )}
           />
           <div className="flex items-center justify-between">
-            <Link href={`/auth/forgot`}>
-              <p className="text-xs cursor-pointer text-zinc-400 pl-2.5">
+            <Link href={`forgot`}>
+              <p className="text-xs cursor-pointer text-zinc-400 pl-2.5 hover:underline">
                 forgot password ?
               </p>
             </Link>
@@ -98,6 +125,11 @@ const page = () => {
               {form.formState.isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
+          <Link href={`sign-up`}>
+            <p className="w-full text-center text-xs text-zinc-500 hover:underline">
+              Register new user
+            </p>
+          </Link>
         </form>
       </Form>
     </>

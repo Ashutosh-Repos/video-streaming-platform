@@ -25,7 +25,7 @@ const DasboradLayout = ({
   const links = [
     {
       label: "Home",
-      href: "",
+      href: "/",
       icon: (
         <IconHome className="text-neutral-700 dark:text-neutral-200 h-7 w-7  shrink-0" />
       ),
