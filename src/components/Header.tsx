@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
 import VideoSearchForm from "./VideoSearchForm";
-import { roboto, inter } from "@/app/fonts";
+
 import { Plus } from "lucide-react";
 import {
   Popover,
@@ -23,7 +23,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserMenu from "./UserMenu";
 
 const Header = async () => {
   return (
@@ -33,7 +32,6 @@ const Header = async () => {
         <h1>Vidtube</h1>
       </div>
       <VideoSearchForm />
-      <UserMenu />
     </header>
   );
 };

@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/table";
 import StdVideo from "./StdVideo";
 import { IconLock, IconWorld } from "@tabler/icons-react";
+import { videoResponse } from "./page";
 
-interface TbCells {
+export interface TbCells {
   visibility: "Public" | "Private";
   date: Date;
   views: number;
@@ -18,25 +19,17 @@ interface TbCells {
   title: string;
   id: string;
   thumbnail: string;
-  //   links: {
-  //     videoUrl: string;
-  //     comments: string;
-  //     download: string;
-  //     details: string;
-  //     delete: string;
-  //     analytics: string;
-  //   };
 }
 
 interface CustomTableProps {
   caption: string;
   columns: string[];
-  data: TbCells[];
+  data: videoResponse[];
 }
 
 const CustomTable = ({ caption, columns, data }: CustomTableProps) => {
   return (
-    <Table className="overflow-hidden">
+    <Table>
       <TableCaption>{caption}</TableCaption>
       <TableHeader>
         <TableRow>
@@ -52,23 +45,26 @@ const CustomTable = ({ caption, columns, data }: CustomTableProps) => {
               <StdVideo
                 title={video.title}
                 thumbnail={video.thumbnail}
-                id={video.id}
+                id={video._id}
               />
             </TableCell>
             <TableCell className="text-left min-w-28 w-32">
               <div className="flex w-full h-full items-center gap-2">
-                {video.visibility === "Private" ? <IconLock /> : <IconWorld />}
-                <span>{video.visibility}</span>
+                {video.public ? <IconLock /> : <IconWorld />}
+                <span>{video.public ? "Public" : "Private"}</span>
               </div>
             </TableCell>
             <TableCell className="text-left min-w-28 w-36">
-              {video.date.toDateString()}
+              {video?.createdAt}
             </TableCell>
             <TableCell className="text-left min-w-16 w-20">
               <p className="pl-1.5">{video.views}</p>
             </TableCell>
             <TableCell className="text-left min-w-16 w-20">
-              <p className="pl-1.5">{video.commentsCnt}</p>
+              <p className="pl-1.5">{video.likes}</p>
+            </TableCell>
+            <TableCell className="text-left min-w-16 w-20">
+              <p className="pl-1.5">{14}</p>
             </TableCell>
           </TableRow>
         ))}

@@ -41,7 +41,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-screen h-screen relative grid place-items-center">
+          <main className="w-screen h-screen relative flex items-center justify-center">
             {children}
           </main>
 

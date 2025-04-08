@@ -53,3 +53,14 @@ export const userValidation = z
   .regex(/^[a-zA-Z0-9_]+$/, {
     message: "must not contain any special charater",
   });
+
+export const titleValidation = z
+  .string()
+  .min(5, { message: "title must be atleast 4 characters long" })
+  .max(20, { message: "must be smaller than 20 charaters" })
+  .regex(/(?=.*[a-zA-Z])/, { message: "must contain atleast one alphabet" });
+export const descriptionValidation = z
+  .string()
+  .min(10, { message: "title must be atleast 4 characters long" })
+  .max(200, { message: "must be smaller than 20 charaters" })
+  .regex(/(?=.*[a-zA-Z])/, { message: "must contain atleast one alphabet" });

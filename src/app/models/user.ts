@@ -3,17 +3,17 @@ import bcrypt from "bcryptjs";
 
 export interface Iuser extends Document {
   _id: Schema.Types.ObjectId;
-  email: string; //ok
-  username?: string; //ok
-  fullname: string; //ok
-  password?: string; //ok
-  gender: "M" | "F" | "O"; //ok
-  age: number; //ok
-  createdAt?: Date; //ok
-  avatar?: string; //ok
-  cover?: string; //ok
-  watchHistory?: Schema.Types.ObjectId[]; //ok
-  verifyCode?: string; //om
+  email: string;
+  username?: string;
+  fullname: string;
+  password?: string;
+  gender: "M" | "F" | "O";
+  age: number;
+  createdAt?: Date;
+  avatar?: string;
+  cover?: string;
+  watchHistory?: Schema.Types.ObjectId[];
+  verifyCode?: string;
   forgotCode?: string;
   verified: boolean;
 }
@@ -78,5 +78,5 @@ const UserSchema: Schema<Iuser> = new Schema(
 );
 
 export const userModel =
-  (mongoose.models?.user as mongoose.Model<Iuser>) ||
-  mongoose.model<Iuser>("user", UserSchema);
+  (mongoose.models?.users as mongoose.Model<Iuser>) ||
+  mongoose.model<Iuser>("users", UserSchema);

@@ -14,19 +14,7 @@ interface ApiResponse {
   success: boolean;
 }
 
-interface videoResponse {
-  _id: string;
-  videoFile: string;
-  thumbnail: string;
-  title: string;
-  description: string;
-  owner: string;
-  views: Number;
-  isPublic: boolean;
-  comments: [];
-  likesCount: Number;
-  commentsCount: Number;
-}
+import { videoResponse } from "../dashboard/(main)/content/page";
 export default function Home() {
   const [videos, setVideos] = useState<videoResponse[]>();
   const dataFetch = async (url: string) => {
@@ -39,11 +27,14 @@ export default function Home() {
   };
   useEffect(() => {
     dataFetch(
-      "https://vidtubebackend-5f0f.onrender.com/api/v1/video/?page=1&limit=10&sortType=dsc"
+      "http://localhost:3000/api/video?page=1&limit=10&sortBy=createdAt&sortType=dsc"
     );
   }, []);
   return (
-    <div className=" font-[family-name:var(--font-roboto)] p-2 w-full h-[calc(100vh-4rem)] overflow-y-scroll grid max-md:grid-cols-1 max-lg:grid-cols-2 max-2xl:grid-cols-3 grid-cols-4 place-items-center gap-2.5">
+    <div
+      className=" font-[family-name:var(--font-roboto)] p-2 w-full h-[calc(100vh-3.5rem)] overflow-y-scroll grid max-md:grid-cols-1 max-lg:grid-cols-2 max-2xl:grid-cols-3 grid-cols-4 place-items-center gap-4 rounded-tl-xl bg-black scroll-smooth"
+      style={{ scrollbarWidth: "thin" }}
+    >
       {videos?.length &&
         videos.map((e, index) => (
           <VideoCard
@@ -52,7 +43,7 @@ export default function Home() {
             timeUnit={TimeUnits.Minutes}
             title={e.title}
             views={e.views}
-            videoSrc={e.videoFile}
+            videoSrc={e.video}
             thumbNail={e.thumbnail}
             published={1}
             channelLogoSrc=""

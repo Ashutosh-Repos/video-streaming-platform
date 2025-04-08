@@ -48,9 +48,17 @@ const DasboradLayout = ({
     },
   ];
   return (
-    <div className="w-full h-full flex relative">
+    <div className="w-full h-full relative flex md:flex-row-reverse">
+      <div
+        className="w-full md:h-full h-[calc(100vh-3.5rem)] border-2 border-green-500 overflow-y-scroll relative flex"
+        style={{ scrollbarWidth: "thin" }}
+      >
+        {children}
+        {model}
+      </div>
+
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="gap-10 z-10">
+        <SidebarBody className="gap-10 relative">
           <div className="flex max-md:w-full md:flex-col overflow-y-auto overflow-x-hidden">
             <div className="flex max-md:hidden md:gap-2 h-max">
               <Avatar>
@@ -72,8 +80,6 @@ const DasboradLayout = ({
           </div>
         </SidebarBody>
       </Sidebar>
-      {children}
-      {model}
     </div>
   );
 };

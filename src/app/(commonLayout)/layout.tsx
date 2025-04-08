@@ -9,6 +9,7 @@ import {
   IconLibrary,
   IconPlaylist,
   IconList,
+  IconUpload,
 } from "@tabler/icons-react";
 
 import { ListVideo } from "lucide-react";
@@ -60,7 +61,21 @@ const DasboradLayout = ({
     },
   ];
   return (
-    <div className="w-full h-full flex relative">
+    <div className="w-full h-full flex md:flex-row-reverse relative">
+      <div className="w-full md:h-full h-[calc(100vh-3.5rem)] bg-neutral-100 dark:bg-neutral-900 overflow-hidden">
+        <header className="w-full h-14 sticky top-0 bg-neutral-100 dark:bg-neutral-900 flex items-center gap-2 px-2 sm:px-4 max-sm:justify-between max-sm:flex-row-reverse">
+          <VideoSearchForm />
+          <div className="flex items-center justify-center gap-2 p-2">
+            <IconUpload className="w-4" />
+            {/* <Image src={logo} alt="logo" className="w-8" /> */}
+          </div>
+          <div className="flex items-center justify-center gap-2 p-2">
+            <Image src={logo} alt="logo" className="w-8" />
+            <h1 className="font-bold sm:text-xl text-lg">StreamCast</h1>
+          </div>
+        </header>
+        {children}
+      </div>
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className="gap-10">
           <div className="flex max-md:w-full md:flex-col overflow-y-auto overflow-x-hidden">
@@ -76,7 +91,7 @@ const DasboradLayout = ({
                 Channel Name
               </h4>
             </div>
-            <div className="md:mt-8 max-md:w-full max-md:justify-evenly flex md:flex-col gap-2">
+            <div className="md:mt-8 max-md:w-full z-10 max-md:justify-evenly flex md:flex-col gap-2">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
@@ -84,16 +99,6 @@ const DasboradLayout = ({
           </div>
         </SidebarBody>
       </Sidebar>
-      <div className="w-full h-full">
-        <header className="w-full h-14 sticky top-0 bg-neutral-100 dark:bg-neutral-900 flex items-center gap-2 px-2 sm:px-4 max-sm:justify-between max-sm:flex-row-reverse">
-          <VideoSearchForm />
-          <div className="flex items-center justify-center gap-2 p-2">
-            <Image src={logo} alt="logo" className="w-8" />
-            <h1 className="font-bold sm:text-xl text-lg">StreamCast</h1>
-          </div>
-        </header>
-        {children}
-      </div>
     </div>
   );
 };

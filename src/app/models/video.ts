@@ -1,58 +1,64 @@
 import mongoose, { Schema, Document } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 interface Ivideo extends Document {
+  _id: Schema.Types.ObjectId;
   owner: Schema.Types.ObjectId;
   video: string;
   thumbnail: string;
   title: string;
-  description: string;
-  public: boolean;
-  createdAt: Date;
-  views: number;
-  likes: number;
+  description?: string;
+  public?: boolean;
+  createdAt?: Date;
+  views?: number;
+  likes?: number;
+  age_restriction?: boolean;
 }
 
-const VideoSchema: Schema<Ivideo> = new Schema({
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
+const VideoSchema: Schema<Ivideo> = new Schema(
+  {
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    video: {
+      type: String,
+      required: true,
+    },
+    thumbnail: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    age_restriction: {
+      type: Boolean,
+      default: false,
+    },
+    public: {
+      type: Boolean,
+      default: false,
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
   },
-  video: {
-    type: String,
-    required: true,
-  },
-  thumbnail: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  public: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-  },
-  views: {
-    type: Number,
-    required: true,
-  },
-  likes: {
-    type: Number,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
+VideoSchema.plugin(mongooseAggregatePaginate);
 
 export const Video =
-  (mongoose.models?.video as mongoose.Model<Ivideo>) ||
-  mongoose.model<Ivideo>("video", VideoSchema);
+  (mongoose.models?.videos as mongoose.Model<Ivideo>) ||
+  mongoose.model<Ivideo>("videos", VideoSchema);
